@@ -26,7 +26,9 @@ public class Logination implements Command {
         if (user.isExist()) {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            response.sendRedirect("Controller?command=toauthpage");
+            session.removeAttribute("auth");
+            session.setAttribute("auth",true);
+            response.sendRedirect("Controller?command=tomainpage");
         } else {
             messageService.sendWarningMessage(request, "Ошибка! Проверьте правильность введенных данных!");
             response.sendRedirect("Controller?command=tomainpage");

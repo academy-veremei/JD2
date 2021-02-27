@@ -16,7 +16,6 @@ public class Controller extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private final CommandProvider commandProvider = new CommandProvider();
-    private final Authenticator authenticator = new Authenticator();
 
     public Controller() {
         super();
@@ -45,12 +44,8 @@ public class Controller extends HttpServlet {
         String name;
         Command command;
 
-        if (authenticator.authenticate(request)) {
-            name = request.getParameter("command");
-            command = commandProvider.takeCommand(name);
-        } else {
-            command = commandProvider.takeCommand("tomainpage");
-        }
+        name = request.getParameter("command");
+        command = commandProvider.takeCommand(name);
         command.execute(request, response);
     }
 

@@ -39,4 +39,16 @@ public class NewsServiceImpl implements NewsService {
         }
     }
 
+    @Override
+    public boolean delete(News news) throws ServiceException {
+        DAOProvider provider = DAOProvider.getInstance();
+        NewsDAO newsDAO = provider.getNewsDAO();
+
+        try {
+            return newsDAO.delete(news);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
 }

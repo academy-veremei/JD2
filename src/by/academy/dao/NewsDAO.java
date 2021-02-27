@@ -10,4 +10,6 @@ public interface NewsDAO {
 
     boolean update(News news) throws DAOException;
 
+    boolean delete(News news) throws DAOException;
+
 }

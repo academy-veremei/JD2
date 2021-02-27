@@ -36,9 +36,9 @@ public class SQLNewsDAO implements NewsDAO {
                 String content = rs.getString("content");
                 String date = rs.getString("date");
                 News n = new News(id, title, brief, content, date);
-
-                news.add(n);
-
+                if ("active".equals(rs.getString("status"))) {
+                    news.add(n);
+                }
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -68,6 +68,33 @@ public class SQLNewsDAO implements NewsDAO {
                 statement.setString(2, news.getBrief());
                 statement.setString(3, news.getContent());
                 statement.setInt(4, news.getId());
+                statement.executeUpdate();
+            }
+            return true;
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                throw new DAOException(e);
+            }
+        }
+    }
+
+    @Override
+    public boolean delete(News news) throws DAOException {
+        Connection con = null;
+        PreparedStatement statement = null;
+        final String NEWS_DELETE_QUARY = "UPDATE news SET status=? WHERE id=?";
+
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://127.0.0.1/news_management?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC",
+                    "dima", "34513451");
+            statement = con.prepareStatement(NEWS_DELETE_QUARY);
+            {
+                statement.setString(1, "inactive");
+                statement.setInt(2, news.getId());
                 statement.executeUpdate();
             }
             return true;

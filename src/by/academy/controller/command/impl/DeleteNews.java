@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class ToAuthPage implements Command {
+public class DeleteNews implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
             ServiceException {
@@ -22,15 +22,20 @@ public class ToAuthPage implements Command {
         NewsService newsService = service.getNewsService();
         MessageService messageService = service.getMessageService();
 
+        int id = Integer.parseInt(request.getParameter("newsnum"));
+
+        News news = new News();
+        news.setId(id);
+
         try {
-            List<News> news = newsService.takeAll();
-            request.setAttribute("news", news);
-            request.setAttribute("message",messageService.getMessage(request));
+            if (newsService.delete(news)) {
+                messageService.sendSuccessMessage(request, "Новость успешно удалена!");
+            } else {
+                messageService.sendWarningMessage(request, "При удалении новости произошла ошибка!");
+            }
+            response.sendRedirect("Controller?command=tomainpage");
         } catch (ServiceException e) {
             throw new ServiceException(e);
         }
-
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/auth.jsp");
-        requestDispatcher.forward(request, response);
     }
 }

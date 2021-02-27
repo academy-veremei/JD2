@@ -29,7 +29,7 @@ public class Edit implements Command {
             } else {
                 messageService.sendWarningMessage(request, "При обновлении новости произошла ошибка!");
             }
-            response.sendRedirect("Controller?command=toauthpage");
+            response.sendRedirect("Controller?command=tomainpage");
         } catch (ServiceException e) {
             throw new ServiceException(e);
         }

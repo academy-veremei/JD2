@@ -14,7 +14,7 @@ public class CommandProvider {
         commands.put(CommandName.TOMAINPAGE, new ToMainPage());
         commands.put(CommandName.TONEWSPAGE, new ToNewsPage());
         commands.put(CommandName.LOGOUT, new Logout());
-        commands.put(CommandName.TOAUTHPAGE, new ToAuthPage());
+        commands.put(CommandName.DELETENEWS, new DeleteNews());
         commands.put(CommandName.EDIT, new Edit());
     }
 

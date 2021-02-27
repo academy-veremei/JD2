@@ -44,12 +44,14 @@
             <div class="card-body">
                 <h5 class="card-title"><c:out value="${news.title}"/></h5>
                 <p class="card-text"><c:out value="${news.content}"/></p>
-                <a href="Controller?command=toauthpage" class="btn btn-outline-light"
+                <a href="Controller?command=tomainpage" class="btn btn-outline-light"
                    style="background-color: #3F5062; border: 0px;">Назад на главную</a>
                 <c:if test="${sessionScope.user.role eq \"admin\"}">
-                    <button button type="hidden" class="btn btn-outline-light" data-bs-toggle="modal"
+                    <button button class="btn btn-outline-light" data-bs-toggle="modal"
                             data-bs-target="#editNews" style="background-color: #3F5062; border: 0px;">Редактировать
                     </button>
+                    <a href="Controller?command=deletenews&newsnum=${news.id}" class="btn btn-outline-light"
+                       style="background-color: #3F5062; border: 0px;">Удалить новость</a>
                 </c:if>
             </div>
         </div>

@@ -11,7 +11,7 @@ public class Logout implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        session.removeAttribute("user");
+        session.removeAttribute("auth");
 
         response.sendRedirect("Controller?command=tomainpage");
     }
