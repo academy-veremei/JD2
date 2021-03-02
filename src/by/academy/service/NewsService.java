@@ -1,12 +1,18 @@
 package by.academy.service;
 
 import by.academy.bean.News;
+import by.academy.exceptions.NewsException;
+import by.academy.exceptions.ServiceException;
 
-import java.util.List;
+import java.util.Map;
 
 public interface NewsService {
-    List<News> takeAll() throws ServiceException;
-    boolean update(News news) throws ServiceException;
-    boolean delete(News news) throws ServiceException;
+    Map<Integer, News> takeAll() throws ServiceException;
+
+    void update(String id, String title, String brief, String content) throws ServiceException, NewsException;
+
+    void delete(String id) throws ServiceException;
+
+    void add(String id, String title, String brief, String content) throws ServiceException, NewsException;
 }
 

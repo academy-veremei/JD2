@@ -12,8 +12,6 @@ public final class ServiceProvider {
 
     private final UserService userService = new UserServiceImpl();
     private final NewsService newsService = new NewsServiceImpl();
-    private final GatekeeperService gatekeeperService = new GatekeeperService();
-    private final MessageService messageService = new MessageService();
 
     public static ServiceProvider getInstance() {
         return instance;
@@ -27,10 +25,5 @@ public final class ServiceProvider {
         return newsService;
     }
 
-    public GatekeeperService getGatekeeperService() {
-        return gatekeeperService;
-    }
-
-    public MessageService getMessageService() {return messageService;}
 
 }

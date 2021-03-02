@@ -9,7 +9,7 @@ public class News {
     private String content;
     private String date;
 
-    public News(){
+    public News() {
         super();
     }
 

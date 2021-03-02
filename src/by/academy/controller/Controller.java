@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.academy.controller.command.Command;
 import by.academy.controller.command.CommandProvider;
-import by.academy.dao.DAOException;
-import by.academy.service.ServiceException;
+import by.academy.exceptions.DAOException;
+import by.academy.exceptions.ServiceException;
 
 public class Controller extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -23,11 +23,13 @@ public class Controller extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         try {
             process(request, response);
         } catch (SQLException | ServiceException | DAOException throwables) {
             throwables.printStackTrace();
         }
+
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

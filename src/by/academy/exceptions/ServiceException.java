@@ -1,6 +1,6 @@
-package by.academy.service;
+package by.academy.exceptions;
 
-public class ServiceException extends Exception{
+public class ServiceException extends Exception {
     private static final long serialVersionUID = -2795804103099775537L;
 
     public ServiceException() {

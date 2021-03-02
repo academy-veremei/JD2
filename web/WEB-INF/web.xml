@@ -8,6 +8,11 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/maintenance.jsp</location>
+    </error-page>
+
     <servlet>
         <servlet-name>myController</servlet-name>
         <servlet-class>by.academy.controller.Controller</servlet-class>
@@ -17,4 +22,24 @@
         <servlet-name>myController</servlet-name>
         <url-pattern>/Controller</url-pattern>
     </servlet-mapping>
+
+    <filter>
+        <filter-name>CharsetFilter</filter-name>
+        <filter-class>by.academy.filters.CharsetFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CharsetFilter</filter-name>
+        <servlet-name>myController</servlet-name>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>AuthenticationFilter</filter-name>
+        <filter-class>by.academy.filters.AuthenticationFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <servlet-name>myController</servlet-name>
+    </filter-mapping>
 </web-app>

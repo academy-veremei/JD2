@@ -10,7 +10,8 @@ public final class DAOProvider {
     private final UserDAO userdao = new SQLUserDAO();
     private final NewsDAO newsDAO = new SQLNewsDAO();
 
-    private DAOProvider() {}
+    private DAOProvider() {
+    }
 
     public static DAOProvider getInstance() {
         return instance;

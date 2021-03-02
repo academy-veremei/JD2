@@ -1,37 +1,38 @@
 package by.academy.controller.command.impl;
 
-import by.academy.bean.News;
 import by.academy.controller.command.Command;
+import by.academy.controller.propprovider.PropertiesProvider;
 import by.academy.service.*;
+import by.academy.exceptions.NewsException;
+import by.academy.exceptions.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Properties;
 
 public class Edit implements Command {
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServiceException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ServiceProvider service = ServiceProvider.getInstance();
         NewsService newsService = service.getNewsService();
-        MessageService messageService = service.getMessageService();
-
-        String newTitle = request.getParameter("title");
-        String newBrief = request.getParameter("brief");
-        String newContent = request.getParameter("content");
-        int id = Integer.parseInt(request.getParameter("newsnum"));
-        String date = request.getParameter("newsdate");
-
-        News news = new News(id, newTitle, newBrief, newContent, date);
+        HttpSession session = request.getSession();
+        PropertiesProvider provider = new PropertiesProvider();
+        Properties properties = provider.getProperties((String) session.getAttribute("locale"));
 
         try {
-            if (newsService.update(news)) {
-                messageService.sendSuccessMessage(request, "Новость успешно обновлена!");
-            } else {
-                messageService.sendWarningMessage(request, "При обновлении новости произошла ошибка!");
-            }
-            response.sendRedirect("Controller?command=tomainpage");
+            newsService.update(request.getParameter("newsnum"), request.getParameter("title"),
+                    request.getParameter("brief"), request.getParameter("content"));
+            session.setAttribute("message", properties.getProperty("alert.editnews.success"));
         } catch (ServiceException e) {
-            throw new ServiceException(e);
+            System.out.println("Беды с БД");
+            session.setAttribute("message", properties.getProperty("alert.db.error"));
+        } catch (NewsException n) {
+            System.out.println("Беды с инпутом");
+            session.setAttribute("message", properties.getProperty("alert.editnews.error"));
         }
+
+        response.sendRedirect("Controller?command=tomainpage");
     }
 }

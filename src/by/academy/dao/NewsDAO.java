@@ -1,15 +1,18 @@
 package by.academy.dao;
 
 import by.academy.bean.News;
+import by.academy.exceptions.DAOException;
 
-import java.util.List;
+import java.util.Map;
 
 public interface NewsDAO {
 
-    List<News> all()  throws DAOException;
+    Map<Integer, News> all() throws DAOException;
 
-    boolean update(News news) throws DAOException;
+    void update(News news) throws DAOException;
 
-    boolean delete(News news) throws DAOException;
+    void delete(News news) throws DAOException;
+
+    void add(News news) throws DAOException;
 
 }

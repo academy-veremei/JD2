@@ -15,7 +15,9 @@ public class CommandProvider {
         commands.put(CommandName.TONEWSPAGE, new ToNewsPage());
         commands.put(CommandName.LOGOUT, new Logout());
         commands.put(CommandName.DELETENEWS, new DeleteNews());
+        commands.put(CommandName.ADDNEWS, new AddNews());
         commands.put(CommandName.EDIT, new Edit());
+        commands.put(CommandName.CHANGE_LOCALE, new ChangeLocale());
     }
 
     public Command takeCommand(String name) {

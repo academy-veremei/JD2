@@ -10,7 +10,6 @@ public class User implements Serializable {
     private String email;
     private String login;
     private String password;
-    private boolean isExist;
     private String role;
 
     public User() {
@@ -18,7 +17,7 @@ public class User implements Serializable {
     }
 
     public User(String firstName, String lastName, String email, String login,
-                            String password, String role) {
+                String password, String role) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -99,14 +98,6 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public boolean isExist() {
-        return isExist;
-    }
-
-    public void setExist(boolean exist) {
-        isExist = exist;
     }
 
     public String getRole() {

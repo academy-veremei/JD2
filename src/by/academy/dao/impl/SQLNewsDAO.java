@@ -1,34 +1,27 @@
 package by.academy.dao.impl;
 
 import by.academy.bean.News;
-import by.academy.dao.DAOException;
+import by.academy.dao.pool.ConnectionPool;
+import by.academy.exceptions.DAOException;
 import by.academy.dao.NewsDAO;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SQLNewsDAO implements NewsDAO {
-
-    static {
-        MYSQLDriverLoader.getInstance();
-    }
-
     @Override
-    public List<News> all() throws DAOException {
-        Connection con = null;
-        Statement st = null;
+    public Map<Integer, News> all() throws DAOException {
         ResultSet rs = null;
+        final String TAKE_NEWS_QUERY = "SELECT id,title,brief,content,date FROM news WHERE status='active'";
 
-        List<News> news = null;
-        try {
-            con = DriverManager.getConnection("jdbc:mysql://127.0.0.1/news_management?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC",
-                    "dima", "34513451");
+        Map<Integer, News> news = null;
 
-            st = con.createStatement();
-            rs = st.executeQuery("SELECT * FROM news");
+        try (Connection connection = ConnectionPool.getConnection();
+             Statement statement = connection.createStatement()) {
+            rs = statement.executeQuery(TAKE_NEWS_QUERY);
 
-            news = new ArrayList<News>();
+            news = new HashMap<Integer, News>();
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String title = rs.getString("title");
@@ -36,76 +29,65 @@ public class SQLNewsDAO implements NewsDAO {
                 String content = rs.getString("content");
                 String date = rs.getString("date");
                 News n = new News(id, title, brief, content, date);
-                if ("active".equals(rs.getString("status"))) {
-                    news.add(n);
-                }
+                news.put(n.getId(), n);
             }
         } catch (SQLException e) {
             throw new DAOException(e);
-        } finally {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                throw new DAOException(e);
-            }
         }
 
         return news;
     }
 
     @Override
-    public boolean update(News news) throws DAOException {
-        Connection con = null;
-        PreparedStatement statement = null;
-        final String NEWS_UPDATE_QUARY = "UPDATE news SET title=?, brief=?, content=? WHERE id=?";
+    public void update(News news) throws DAOException {
 
-        try {
-            con = DriverManager.getConnection("jdbc:mysql://127.0.0.1/news_management?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC",
-                    "dima", "34513451");
-            statement = con.prepareStatement(NEWS_UPDATE_QUARY);
-            {
-                statement.setString(1, news.getTitle());
-                statement.setString(2, news.getBrief());
-                statement.setString(3, news.getContent());
-                statement.setInt(4, news.getId());
-                statement.executeUpdate();
-            }
-            return true;
+        final String NEWS_UPDATE_QUERY = "UPDATE news SET title=?, brief=?, content=? WHERE id=?";
+
+        try (Connection connection = ConnectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(NEWS_UPDATE_QUERY)) {
+
+            statement.setString(1, news.getTitle());
+            statement.setString(2, news.getBrief());
+            statement.setString(3, news.getContent());
+            statement.setInt(4, news.getId());
+            statement.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException(e);
-        } finally {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                throw new DAOException(e);
-            }
         }
     }
 
     @Override
-    public boolean delete(News news) throws DAOException {
-        Connection con = null;
-        PreparedStatement statement = null;
-        final String NEWS_DELETE_QUARY = "UPDATE news SET status=? WHERE id=?";
+    public void delete(News news) throws DAOException {
 
-        try {
-            con = DriverManager.getConnection("jdbc:mysql://127.0.0.1/news_management?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC",
-                    "dima", "34513451");
-            statement = con.prepareStatement(NEWS_DELETE_QUARY);
-            {
-                statement.setString(1, "inactive");
-                statement.setInt(2, news.getId());
-                statement.executeUpdate();
-            }
-            return true;
+        final String NEWS_DELETE_QUERY = "UPDATE news SET status=? WHERE id=?";
+
+        try (Connection connection = ConnectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(NEWS_DELETE_QUERY)) {
+
+            statement.setString(1, "inactive");
+            statement.setInt(2, news.getId());
+            statement.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException(e);
-        } finally {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                throw new DAOException(e);
-            }
+        }
+    }
+
+    @Override
+    public void add(News news) throws DAOException {
+
+        final String NEWS_ADD_QUERY = "INSERT INTO news (title, brief, content,date) VALUES (?,?,?,?)";
+
+        try (Connection connection = ConnectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(NEWS_ADD_QUERY)) {
+
+            statement.setString(1, news.getTitle());
+            statement.setString(2, news.getBrief());
+            statement.setString(3, news.getContent());
+            statement.setString(4, news.getDate());
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DAOException(e);
         }
     }
 

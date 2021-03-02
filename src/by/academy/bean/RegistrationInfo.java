@@ -14,7 +14,7 @@ public class RegistrationInfo implements Serializable {
 
     public RegistrationInfo() {
         super();
-        this.role = "user";
+        role = "user";
     }
 
     public RegistrationInfo(String firstName, String lastName, String email, String login,

@@ -1,4 +1,4 @@
-package by.academy.dao;
+package by.academy.exceptions;
 
 public class DAOException extends Exception {
     private static final long serialVersionUID = 5579627996438039829L;
@@ -17,6 +17,10 @@ public class DAOException extends Exception {
 
     public DAOException(String message, Exception e) {
         super(message, e);
+    }
+
+    public DAOException(int code) {
+        super(String.valueOf(code));
     }
 
 }

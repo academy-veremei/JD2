@@ -1,7 +1,7 @@
 package by.academy.controller.command;
 
-import by.academy.dao.DAOException;
-import by.academy.service.ServiceException;
+import by.academy.exceptions.DAOException;
+import by.academy.exceptions.ServiceException;
 
 import java.io.IOException;
 import java.sql.SQLException;
