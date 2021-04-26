@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <%@page contentType="text/html;charset=UTF-8"
-            import="java.util.List , by.academy.bean.News, by.academy.bean.User" %>
+            import="java.util.List , by.academy.bean.News" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -39,7 +39,7 @@
             </c:if>
             <div class="navbar-form ms-auto">
                 <div class="helloCol" style="color: white">
-                    <fmt:message key="hellouser.text"/>, <c:out value="${sessionScope.user.firstName}"/> ! <a
+                    <fmt:message key="hellouser.text"/>, <c:out value="${sessionScope.firstName}"/> ! <a
                         href="Controller?command=logout"><img
                         src="./resources/img/logout.png" class="img-fluid" alt="Logout"></a>
                 </div>
@@ -60,7 +60,7 @@
                    style="background-color: #3F5062; border: 0px;">
                     <fmt:message key="button.news.backtomain"/>
                 </a>
-                <c:if test="${sessionScope.user.role eq \"admin\"}">
+                <c:if test="${sessionScope.role eq \"admin\"}">
                     <button button class="btn btn-outline-light" data-bs-toggle="modal"
                             data-bs-target="#editNews" style="background-color: #3F5062; border: 0px;">
                         <fmt:message key="button.news.edit"/>

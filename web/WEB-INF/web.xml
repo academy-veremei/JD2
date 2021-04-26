@@ -25,7 +25,7 @@
 
     <filter>
         <filter-name>CharsetFilter</filter-name>
-        <filter-class>by.academy.filters.CharsetFilter</filter-class>
+        <filter-class>by.academy.controller.filter.CharsetFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -35,11 +35,14 @@
 
     <filter>
         <filter-name>AuthenticationFilter</filter-name>
-        <filter-class>by.academy.filters.AuthenticationFilter</filter-class>
+        <filter-class>by.academy.controller.filter.AuthenticationFilter</filter-class>
     </filter>
 
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
         <servlet-name>myController</servlet-name>
     </filter-mapping>
+    <listener>
+        <listener-class>by.academy.controller.listener.PoolInitializer</listener-class>
+    </listener>
 </web-app>

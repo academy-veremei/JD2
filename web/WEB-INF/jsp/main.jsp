@@ -16,6 +16,7 @@
     <c:set var="defaultLocale" value="en"/>
     <fmt:setLocale value="${sessionScope.locale == null ? defaultLocale : sessionScope.locale}"/>
     <fmt:setBundle basename="local"/>
+    <!-- Локализация плейсхолдеров -->
     <fmt:message key="logination.login.placeholder" var="loginph"/>
     <fmt:message key="logination.pass.placeholder" var="passph"/>
     <fmt:message key="registration.input.placeholder.email" var="regemailph"/>
@@ -58,7 +59,7 @@
                 </c:if>
                 <c:if test="${sessionScope.auth == true}">
                     <div class="helloCol" style="color: white">
-                        <fmt:message key="hellouser.text"/>, <c:out value="${sessionScope.user.firstName}"/>! <a
+                        <fmt:message key="hellouser.text"/>, <c:out value="${sessionScope.firstName}"/>! <a
                             href="Controller?command=logout"><img
                             src="./resources/img/logout.png" class="img-fluid" alt="Logout"></a>
                     </div>
@@ -89,7 +90,7 @@
                     <h5 class="card-title"><c:out value="${someNews.value.title}"/></h5>
                     <p class="card-text"><c:out value="${someNews.value.brief}"/></p>
                     <c:if test="${sessionScope.auth == true}"> <a
-                            href="Controller?command=tonewspage&newsnum=${someNews.value.id}"
+                            href="Controller?command=tonewspage&newsID=${someNews.value.id}"
                             class="btn btn-outline-light"
                             style="background-color: #3F5062; border: 0px;">
                         <fmt:message key="button.tonews"/>
@@ -107,7 +108,7 @@
         </div>
     </c:forEach>
     <!-- Добавить новость -->
-    <c:if test="${sessionScope.user.role eq \"admin\"}">
+    <c:if test="${sessionScope.role eq \"admin\"}">
         <div class="row">
             <div class="text-center mt-2">
                 <button type="button" class="btn btn-outline-light" data-bs-toggle="modal"
